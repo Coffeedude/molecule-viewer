@@ -19,7 +19,8 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       <Canvas
         camera={{ position: [0, 0, 5], fov: 75 }}
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: '#1a1a1a' }}
+        gl={{ backgroundColor: 'black' }}
       >
         <OrbitControls enableZoom={true} enablePan={true} enableRotate={true} />
         <Lights />
