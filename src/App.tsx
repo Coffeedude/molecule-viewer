@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Box } from '@mui/material';
-import SearchBar from './components/SearchBar';
 import MoleculeViewer from './components/MoleculeViewer';
+import SearchBar from './components/SearchBar';
+import { Lights } from './components/Lights';
+import './extensions/three-extensions';
 
 function App() {
   const [moleculeData, setMoleculeData] = useState<any>(null);
@@ -15,14 +17,14 @@ function App() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <SearchBar onSearch={handleSearch} />
-      <Box sx={{ flex: 1, position: 'relative' }}>
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-          <OrbitControls />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <MoleculeViewer moleculeData={moleculeData} />
-        </Canvas>
-      </Box>
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 75 }}
+        style={{ flex: 1 }}
+      >
+        <OrbitControls enableZoom={true} enablePan={true} enableRotate={true} />
+        <Lights />
+        <MoleculeViewer moleculeData={moleculeData} />
+      </Canvas>
     </Box>
   );
 }

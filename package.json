@@ -6,8 +6,8 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.0",
-    "@react-three/drei": "^9.106.0",
-    "@react-three/fiber": "^8.16.0",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.13.1",
     "axios": "^1.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -37,5 +37,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/three": "^0.177.0"
   }
 }
