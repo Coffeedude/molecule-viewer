@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { Vector3, BufferGeometry, Float32BufferAttribute } from 'three';
 import { Box } from '@mui/material';
 import { useThree, useFrame, useLoader } from '@react-three/fiber';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { Atom, Bond, Compound } from './types';
 
 interface MoleculeViewerProps {
@@ -12,14 +14,15 @@ const atomColors = {
   'C': '#959595',  // Carbon
   'H': '#FFFFFF',  // Hydrogen
   'O': '#FF0D0D',  // Oxygen
-  'N': '#0070C0',  // Nitrogen
-  'S': '#FFD700',  // Sulfur
+  'N': '#0000FF',  // Nitrogen
+  'S': '#FFFF00',  // Sulfur
   'P': '#FFA500',  // Phosphorus
-  'default': '#808080' // Default color
+  'default': '#CCCCCC'  // Default color
 };
 
 export default function MoleculeViewer({ moleculeData }: MoleculeViewerProps) {
   const groupRef = useRef<any>(null);
+  const font = useLoader(FontLoader, '/fonts/helvetiker_regular.typeface.json');
 
   useEffect(() => {
     if (moleculeData) {
@@ -122,17 +125,38 @@ export default function MoleculeViewer({ moleculeData }: MoleculeViewerProps) {
         const element = atom.element as keyof typeof atomColors;
         const color = atomColors[element] || atomColors['default'];
         return (
-          <mesh key={index} position={[atom.x, atom.y, atom.z]}>
-            <sphereGeometry attach="geometry" args={[0.2, 32, 32]} />
-            <meshStandardMaterial 
-              attach="material" 
-              color={color} 
-              metalness={0.5} 
-              roughness={0.5} 
-              emissive="#111111"
-              emissiveIntensity={0.1}
-            />
-          </mesh>
+          <group key={index} position={[atom.x, atom.y, atom.z]}>
+            {/* Atom sphere */}
+            <mesh>
+              <sphereGeometry attach="geometry" args={[0.2, 32, 32]} />
+              <meshStandardMaterial 
+                attach="material" 
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.5}
+              />
+            </mesh>
+            
+            {/* Atom label */}
+            <mesh position={[0, 0.3, 0]}>
+              <textGeometry 
+                attach="geometry" 
+                args={[element, { 
+                  font: font,
+                  size: 0.15,
+                  height: 0.01,
+                  curveSegments: 12,
+                  bevelEnabled: false
+                }]} 
+              />
+              <meshStandardMaterial 
+                attach="material" 
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.5}
+              />
+            </mesh>
+          </group>
         );
       })}
     </group>
